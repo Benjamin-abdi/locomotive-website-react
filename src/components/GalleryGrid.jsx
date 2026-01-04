@@ -62,6 +62,8 @@ function GalleryGrid() {
       {currentIndex !== null && (
         <Lightbox
           image={filteredData[currentIndex]}
+          images={filteredData}
+          index={currentIndex}
           hasPrev={currentIndex > 0}
           hasNext={currentIndex < filteredData.length - 1}
           onPrev={prev}

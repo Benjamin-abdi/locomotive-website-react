@@ -187,3 +187,7 @@ select {
 .lightbox-nav.right {
   right: 30px;
 }
+
+.lightbox-image {
+  touch-action: none;
+}

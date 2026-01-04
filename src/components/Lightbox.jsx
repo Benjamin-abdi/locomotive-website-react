@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from "react"
 
 function Lightbox({
   image,
+  images,
+  index,
   onClose,
   onNext,
   onPrev,
@@ -10,13 +12,43 @@ function Lightbox({
 }) {
   const [scale, setScale] = useState(1)
   const [position, setPosition] = useState({ x: 0, y: 0 })
+
   const dragging = useRef(false)
   const start = useRef({ x: 0, y: 0 })
 
+  const pinchStartDistance = useRef(null)
+  const pinchStartScale = useRef(1)
+
+  const touchStartX = useRef(null)
+  const touchEndX = useRef(null)
+
+  //Make sure that it works!!!!!!!!!!!!!!!!!!!
+  const getDistance = (touches) => {
+    const dx = touches[0].clientX - touches[1].clientX
+    const dy = touches[0].clientY - touches[1].clientY
+    return Math.hypot(dx, dy)
+  }
+
+  // Reset zoom and position when image changes
   useEffect(() => {
     setScale(1)
     setPosition({ x: 0, y: 0 })
   }, [image])
+
+  // Preload next and previous images
+  useEffect(() => {
+    if (!image || !images) return
+
+    if (hasNext && images[index + 1]) {
+      const nextImg = new Image()
+      nextImg.src = images[index + 1].image
+    }
+
+    if (hasPrev && images[index - 1]) {
+      const prevImg = new Image()
+      prevImg.src = images[index - 1].image
+    }
+  }, [image, images, index, hasNext, hasPrev])
 
   useEffect(() => {
     const handleKey = e => {
@@ -34,6 +66,7 @@ function Lightbox({
     }
   }, [onClose, onNext, onPrev, hasNext, hasPrev])
 
+  // Mouse wheel zoom
   const handleWheel = e => {
     e.preventDefault()
     setScale(prev =>
@@ -41,11 +74,13 @@ function Lightbox({
     )
   }
 
+  // Double click zoom toggle
   const handleDoubleClick = () => {
     setScale(prev => (prev === 1 ? 2 : 1))
     setPosition({ x: 0, y: 0 })
   }
 
+  // Mouse drag
   const handleMouseDown = e => {
     dragging.current = true
     start.current = {
@@ -66,8 +101,60 @@ function Lightbox({
     dragging.current = false
   }
 
-  if (!image) return null
+  // Touch swipe start
+  const handleTouchStart = e => {
+    if (e.touches.length === 2) {
+      // Pinch start
+      pinchStartDistance.current = getDistance(e.touches)
+      pinchStartScale.current = scale
+    } else if (e.touches.length === 1 && scale === 1) {
+      // Swipe start
+      touchStartX.current = e.touches[0].clientX
+    }
+  }
 
+  const handleTouchMove = e => {
+    if (e.touches.length === 2 && pinchStartDistance.current) {
+      // Pinch zoom
+      const newDistance = getDistance(e.touches)
+      const zoomFactor = newDistance / pinchStartDistance.current
+
+      setScale(
+        Math.min(4, Math.max(1, pinchStartScale.current * zoomFactor))
+      )
+    } else if (e.touches.length === 1 && scale === 1) {
+      // Swipe move
+      touchEndX.current = e.touches[0].clientX
+    }
+  }
+
+  const handleTouchEnd = () => {
+    pinchStartDistance.current = null
+
+    if (scale !== 1) {
+      touchStartX.current = null
+      touchEndX.current = null
+      return
+    }
+
+    if (
+      touchStartX.current === null ||
+      touchEndX.current === null
+    )
+      return
+
+    const diff = touchStartX.current - touchEndX.current
+
+    if (diff > 60 && hasNext) onNext()
+    else if (diff < -60 && hasPrev) onPrev()
+
+    touchStartX.current = null
+    touchEndX.current = null
+  }
+
+
+
+  if (!image) return null
   return (
     <div className="lightbox-overlay" onClick={onClose}>
       {hasPrev && (
@@ -95,6 +182,9 @@ function Lightbox({
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
         draggable={false}
       />
 
