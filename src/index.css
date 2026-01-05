@@ -189,5 +189,11 @@ select {
 }
 
 .lightbox-image {
+  max-width: 75vw;
+  max-height: 75vh;
+  object-fit: contain; /* Always show full image */
+  cursor: grab;
+  transition: transform 0.15s ease-out;
   touch-action: none;
 }
+

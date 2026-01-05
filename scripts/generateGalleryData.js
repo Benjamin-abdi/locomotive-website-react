@@ -1,6 +1,33 @@
 import fs from "fs"
 import path from "path"
 
+function parseSource(rawSource) {
+  // Remove trailing numbers like " 2", " 3"
+  const cleaned = rawSource.replace(/\s\d+$/, "").trim()
+
+  const facebookGroups = [
+    "Railcolor Photo Group",
+    "Die Vectron-Lokfamilie ( inkl. Smartron, Dieselvectron & Dualmode )",
+    "Elektrické LOKOMOTIVY & jednotky"
+  ]
+
+  if (facebookGroups.includes(cleaned)) {
+    return {
+      type: "facebook",
+      label: cleaned,
+      url: null
+    }
+  }
+
+  return {
+    type: "website",
+    label: cleaned,
+    url: cleaned.startsWith("http")
+      ? cleaned
+      : `https://${cleaned}`
+  }
+}
+
 const imagesDir = path.resolve("src/assets/gallery")
 const outputFile = path.resolve("src/data/galleryData.js")
 
@@ -23,7 +50,7 @@ function safeName(text) {
 }
 
 files.forEach(file => {
-  // name of the company = before the first _
+  // Company name = before the first underscore
   const rawCompany = file.split("_")[0]
   const company = rawCompany.trim()
 
@@ -36,8 +63,24 @@ files.forEach(file => {
 
   imports += `import ${varName} from "../assets/gallery/${file}"\n`
 
+  // Extract source part from filename
+  const fileName = file.replace(".jpg", "")
+  const parts = fileName.split("_")
+  const rawSource = parts.slice(1).join("_").trim()
+
+  const source = parseSource(rawSource)
+
   data.push(
-    `  { id: ${id++}, company: "${company}", image: ${varName} }`
+    `  {
+      id: ${id++},
+      company: "${company}",
+      image: ${varName},
+      source: {
+        type: "${source.type}",
+        label: "${source.label}",
+        url: ${source.url ? `"${source.url}"` : null}
+      }
+    }`
   )
 })
 

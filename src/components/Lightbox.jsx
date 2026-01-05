@@ -22,7 +22,9 @@ function Lightbox({
   const touchStartX = useRef(null)
   const touchEndX = useRef(null)
 
-  //Make sure that it works!!!!!!!!!!!!!!!!!!!
+  const lastTapTime = useRef(0) // For double tap
+
+  // Make sure that it works!!!!!!!!!!!!!!!!!!!
   const getDistance = (touches) => {
     const dx = touches[0].clientX - touches[1].clientX
     const dy = touches[0].clientY - touches[1].clientY
@@ -103,13 +105,30 @@ function Lightbox({
 
   // Touch swipe start
   const handleTouchStart = e => {
+    const now = Date.now()
+
+    // Double tap detection (mobile)
+    if (e.touches.length === 1) {
+      if (now - lastTapTime.current < 300) {
+        // Double tap detected
+        setScale(prev => (prev === 1 ? 2 : 1))
+        setPosition({ x: 0, y: 0 })
+        lastTapTime.current = 0
+        return
+      }
+
+      lastTapTime.current = now
+
+      // Swipe start only if not zoomed
+      if (scale === 1) {
+        touchStartX.current = e.touches[0].clientX
+      }
+    }
+
+    // Pinch start
     if (e.touches.length === 2) {
-      // Pinch start
       pinchStartDistance.current = getDistance(e.touches)
       pinchStartScale.current = scale
-    } else if (e.touches.length === 1 && scale === 1) {
-      // Swipe start
-      touchStartX.current = e.touches[0].clientX
     }
   }
 
