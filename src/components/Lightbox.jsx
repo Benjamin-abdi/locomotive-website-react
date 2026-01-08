@@ -24,12 +24,24 @@ function Lightbox({
 
   const lastTapTime = useRef(0) // For double tap
 
+  const [isAnimating, setIsAnimating] = useState(false) // For animation
+  const [isClosing, setIsClosing] = useState(false)
+
   // Make sure that it works!!!!!!!!!!!!!!!!!!!
   const getDistance = (touches) => {
     const dx = touches[0].clientX - touches[1].clientX
     const dy = touches[0].clientY - touches[1].clientY
     return Math.hypot(dx, dy)
   }
+
+  useEffect(() => {
+    setIsAnimating(false)
+    const timer = setTimeout(() => {
+      setIsAnimating(true)
+    }, 20)
+
+    return () => clearTimeout(timer)
+  }, [image])
 
   // Reset zoom and position when image changes
   useEffect(() => {
@@ -67,6 +79,16 @@ function Lightbox({
       document.body.style.overflow = "auto"
     }
   }, [onClose, onNext, onPrev, hasNext, hasPrev])
+
+
+  // For closing animaton
+  const handleClose = () => {
+    setIsClosing(true)
+
+    setTimeout(() => {
+      onClose()
+    }, 350)
+  }
 
   // Mouse wheel zoom
   const handleWheel = e => {
@@ -175,7 +197,10 @@ function Lightbox({
 
   if (!image) return null
   return (
-    <div className="lightbox-overlay" onClick={onClose}>
+    <div
+      className={`lightbox-overlay ${isClosing ? "closing" : ""}`}
+      onClick={handleClose}
+    >
       {hasPrev && (
         <button
           className="lightbox-nav left"
@@ -188,24 +213,54 @@ function Lightbox({
         </button>
       )}
 
-      <img
-        src={image.image}
-        alt={image.company}
-        className="lightbox-image"
-        style={{
-          transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`
-        }}
+      <div
+        className={`lightbox-content ${
+          isAnimating && !isClosing ? "open" : ""
+        }`}
         onClick={e => e.stopPropagation()}
-        onWheel={handleWheel}
-        onDoubleClick={handleDoubleClick}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        draggable={false}
-      />
+      >
+        <div className="lightbox-canvas">
+          <img
+            src={image.image}
+            alt={image.company}
+            className="lightbox-image"
+            style={{
+              transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`
+            }}
+            onWheel={handleWheel}
+            onDoubleClick={handleDoubleClick}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            draggable={false}
+          />
+        </div>
+
+        {image.source && (
+          <div className="lightbox-source">
+            {image.source.type === "website" && (
+              <>
+                Source:{" "}
+                <a
+                  href={image.source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {image.source.label}
+                </a>
+              </>
+            )}
+
+            {image.source.type === "facebook" && (
+              <>Source: Facebook – {image.source.label}</>
+            )}
+          </div>
+        )}
+      </div>
+
 
       {hasNext && (
         <button
@@ -219,7 +274,10 @@ function Lightbox({
         </button>
       )}
 
-      <button className="lightbox-close" onClick={onClose}>
+      <button
+        className="lightbox-close"
+        onClick={handleClose}
+      >
         ×
       </button>
     </div>
