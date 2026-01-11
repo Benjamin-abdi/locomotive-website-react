@@ -1,12 +1,24 @@
 import { useState } from "react"
 import galleryData from "../data/galleryData"
 import Lightbox from "./Lightbox"
+import { companyInfo } from "../data/companyInfo"
+
 
 function GalleryGrid() {
   const [selectedCompany, setSelectedCompany] = useState("All")
   const [currentIndex, setCurrentIndex] = useState(null)
 
   const companies = ["All", ...new Set(galleryData.map(i => i.company))]
+
+  const companyData = companyInfo[selectedCompany]
+
+  let logo
+  try {
+    logo = new URL(`../assets/logos/${selectedCompany}.png`, import.meta.url).href
+  } catch {
+    logo = null
+  }
+
 
   const filteredData =
     selectedCompany === "All"
@@ -46,6 +58,27 @@ function GalleryGrid() {
           </option>
         ))}
       </select>
+
+      {/* Company header with logo and text */}
+      {selectedCompany !== "All" &&
+        companyInfo[selectedCompany] && (
+          <div className="company-header">
+            {companyInfo[selectedCompany].logo && (
+              <img
+                src={companyInfo[selectedCompany].logo}
+                alt={selectedCompany}
+                className="company-logo"
+              />
+            )}
+
+            {companyInfo[selectedCompany].description && (
+              <div className="company-text">
+                <h2>{selectedCompany}</h2>
+                <p>{companyInfo[selectedCompany].description}</p>
+              </div>
+            )}
+          </div>
+      )}
 
       <div className="masonry">
         {filteredData.map((item, index) => (

@@ -265,3 +265,23 @@ select {
 .lightbox-source a:hover {
   text-decoration: underline;
 }
+
+.company-header {
+  max-width: 1200px;
+  margin: 40px auto 30px auto;
+  padding: 0 20px;
+  overflow: hidden;
+}
+
+.company-logo {
+  float: left;
+  width: 160px;
+  margin: 0 30px 20px 0;
+}
+
+.company-text {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #222;
+  text-align: justify;
+}
