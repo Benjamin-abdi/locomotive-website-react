@@ -1,0 +1,20 @@
+{
+  "Adria Transport": {
+    "description": "As the first private railway operator in Slovenia, Adria Transport was founded in 2005 by the Port of Koper and the Austrian company GKB Graz with the aim of improving the rail connection between the Port of Koper and inland markets. The company owns 1 Vectron locomotive. In addition, locomotives owned by the LTE group can be seen in operation with the Adria Transport logo."
+  },
+  "Bahnoperator": {
+    "description":"Bahnoperator is a European intermodal railway service and carrier. It began its activities with the aim of efficiently connecting China and Kazakhstan with Europe via the Trans-Siberian Route. Bahnoperator established itself early on as one of the first providers in this market segment and is now one of the pioneers of Eurasian rail freight transport. Bahnoperator currently operates multiple Siemens Vectron locomotives, including ones with special livery and distinct names, but the exact number of locomotives is not currently available."
+   },
+  "BDŽ": {
+    "description": "The Bulgarian State Railways (Bulgarian: Български държавни железници, romanized: Balgarski darzhavni zheleznitsi, abbreviated as БДЖ, BDZ or BDŽ) are Bulgaria's state railway company and former largest railway carrier in the country, established as an entity in 1888. The company's headquarters are located in the capital Sofia. BDŽ notably operates multiple Siemens Smartron locomotives, a specific derivate of Siemens Vectron family."
+  },
+  "BELog": {
+    "description": "BELog has been responsible for rail logistics for the SCHWENK building materials group since 2019. It transports bulk and loose materials such as sand, gravel, soil, stone, as well as cement and clinker by rail. The company boasts a fleet of modern locomotives, including the Vectron."
+  },
+  "BLS Cargo": {
+    "description": "Founded in 2001 as challenger in the rail freight market, BLS Cargo focuses on the major rail freight axes in Belgium, Germany, Switzerland and Italy. With headquarter in Switzerland and subsidiaries in Belgium and Italy, the company owns a total of 150 locomotives, including multiple Vectrons. The locomotives are distinguished by their reflective green elements, as well as logos and inscriptions related to Alpinism."
+  },
+  "ZSSK": {
+    "description": "Železničná spoločnosť Slovensko  is a Slovak state-owned passenger train company based in Bratislava. ZSSK currently leases a fleet of Siemens Vectron locomotives. They have been expanding this fleet through leases from Rolling Stock Lease, with approximately 25 Vectron units active as of 2025, supporting international and high-speed passenger operations."
+  }
+}
