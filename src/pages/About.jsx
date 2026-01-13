@@ -7,7 +7,7 @@ function About() {
 
       <h2>About Us</h2>
       <p>
-        Text o spoločnosti...
+        This text will be added later.
       </p>
     </div>
   )

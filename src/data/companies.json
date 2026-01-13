@@ -14,6 +14,12 @@
   "BLS Cargo": {
     "description": "Founded in 2001 as challenger in the rail freight market, BLS Cargo focuses on the major rail freight axes in Belgium, Germany, Switzerland and Italy. With headquarter in Switzerland and subsidiaries in Belgium and Italy, the company owns a total of 150 locomotives, including multiple Vectrons. The locomotives are distinguished by their reflective green elements, as well as logos and inscriptions related to Alpinism."
   },
+  "BM Bahndienste": {
+    "description":"A trial"
+  },
+  "Other": {
+    "description": "We were unable to match every image in the database to a specific company. Some images do not show a clear logo or other identifying features. In the case of some other locomotives, their ownership and operation are too complicated. However, if you can identify any locomotive in this section, we would be very grateful for your information."
+  },
   "ZSSK": {
     "description": "Železničná spoločnosť Slovensko  is a Slovak state-owned passenger train company based in Bratislava. ZSSK currently leases a fleet of Siemens Vectron locomotives. They have been expanding this fleet through leases from Rolling Stock Lease, with approximately 25 Vectron units active as of 2025, supporting international and high-speed passenger operations."
   }
