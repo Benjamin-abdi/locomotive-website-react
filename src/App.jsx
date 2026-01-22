@@ -5,6 +5,8 @@ import Home from "./pages/Home"
 import Gallery from "./pages/Gallery"
 import About from "./pages/About"
 import ImageDetail from "./pages/ImageDetail"
+import Footer from "./components/Footer"
+
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <Route path="/gallery/:id" element={<ImageDetail />} />
         <Route path="/about" element={<About />} />
       </Routes>
+
+      <Footer />
     </>
   )
 }
