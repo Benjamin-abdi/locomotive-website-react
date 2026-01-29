@@ -18,7 +18,7 @@ function Home() {
         This website has been created to commemorate the success and widespread adoption of Siemens Vectron locomotives. In the Gallery section, you will find dozens of photos, sorted by company. We tried our best to paint the biggest.
       </p>
       <p>
-        We have tried our best to capture and represent the diversity of these locomotives. We hope you will enjoy our site and find it informative. We would also be very grateful for your feedback, including suggestions for improvements and new features.`
+        We have tried our best to capture and represent the diversity of these locomotives. We hope you will enjoy our site and find it informative. We would also be very grateful for your feedback, including suggestions for improvements and new features.
       </p>
     </div>
   )
